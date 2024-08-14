@@ -1,0 +1,51 @@
+// Mini Proj 2 Code
+
+import java.util.Random;
+import java.util.Scanner;
+
+public class SimpleCountryGuessGame {
+    private static final int GRID_SIZE = 7;
+    private static final int COUNTRY_COUNT = 3;
+    private static String[] countryPositions = new String[COUNTRY_COUNT];
+    private static int countriesFound = 0;
+
+    public static void main(String[] args) {
+        Random random = new Random();
+        Scanner scanner = new Scanner(System.in);
+
+        // Place the countries randomly on the grid
+        for (int i = 0; i < COUNTRY_COUNT; i++) {
+            char row = (char) ('a' + random.nextInt(GRID_SIZE));
+            int col = 1 + random.nextInt(GRID_SIZE);
+            countryPositions[i] = row + Integer.toString(col);
+        }
+
+        System.out.println("Guess the positions of the 3 countries on the 7x7 grid (e.g., a1, b5):");
+
+        while (countriesFound < COUNTRY_COUNT) {
+            System.out.print("Enter your guess: ");
+            String guess = scanner.nextLine();
+
+            boolean hit = false;
+            for (int i = 0; i < COUNTRY_COUNT; i++) {
+                if (guess.equals(countryPositions[i])) {
+                    System.out.println("Hit!");
+                    countriesFound++;
+                    countryPositions[i] = "";  
+                    hit = true;
+                    break;
+                }
+            }
+
+            if (!hit) {
+                System.out.println("Miss!");
+            }
+
+            if (countriesFound == COUNTRY_COUNT) {
+                System.out.println("Kill! You guessed all the countries!");
+            }
+        }
+
+        scanner.close();
+    }
+}
